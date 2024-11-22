@@ -1,11 +1,17 @@
 package org.practice.drinkformood.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
-public record DrinkDto(String name, List<DrinkComponentsDto> drinkComponentsDtoList,String description) {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DrinkDto {
+    private String name;
+    private List<DrinkComponentsDto> drinkComponentsDtoList;
+    private String recipe;
 }
