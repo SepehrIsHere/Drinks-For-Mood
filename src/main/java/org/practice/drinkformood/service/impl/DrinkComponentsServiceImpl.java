@@ -2,9 +2,11 @@ package org.practice.drinkformood.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.practice.drinkformood.dto.DrinkComponentsDto;
 import org.practice.drinkformood.entities.DrinkComponents;
 import org.practice.drinkformood.exception.DrinkComponentNotFoundException;
 import org.practice.drinkformood.exception.DrinkComponentsOperationException;
+import org.practice.drinkformood.exception.DrinkOperationException;
 import org.practice.drinkformood.repository.DrinkComponentsRepository;
 import org.practice.drinkformood.service.DrinkComponentsService;
 import org.springframework.stereotype.Service;
@@ -79,11 +81,26 @@ public class DrinkComponentsServiceImpl implements DrinkComponentsService {
 
     @Override
     public List<DrinkComponents> findAll() {
-        try{
+        try {
             return drinkComponentsRepository.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new DrinkComponentsOperationException("An error occured while finding all drinks");
+        }
+    }
+
+    @Override
+    public DrinkComponents register(DrinkComponentsDto drinkComponentsDto) {
+        try {
+            DrinkComponents drinkComponents = DrinkComponents.builder()
+                    .name(drinkComponentsDto.getName())
+                    .description(drinkComponentsDto.getDescription())
+                    .calorie(drinkComponentsDto.getCalorie())
+                    .build();
+            return save(drinkComponents);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DrinkOperationException("An error occured while trying to save DrinkComponent");
         }
     }
 }

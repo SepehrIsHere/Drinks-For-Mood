@@ -1,5 +1,6 @@
 package org.practice.drinkformood.service;
 
+import org.practice.drinkformood.dto.DrinkDto;
 import org.practice.drinkformood.entities.Drink;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface DrinkService {
     Drink findByName(String name);
 
     List<Drink> findAll();
+
+    Drink register(DrinkDto drinkDto);
 }

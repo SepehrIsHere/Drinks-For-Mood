@@ -1,6 +1,7 @@
 package org.practice.drinkformood.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.practice.drinkformood.dto.UserDto;
 import org.practice.drinkformood.entities.User;
 import org.practice.drinkformood.exception.UserNotFoundException;
 import org.practice.drinkformood.exception.UserOperationException;
@@ -82,6 +83,23 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new UserOperationException("An error occured while trying to find all users");
+        }
+    }
+
+    @Override
+    public User register(UserDto userDto) {
+        try{
+            User user = User.builder()
+                    .firstName(userDto.getFirstName())
+                    .lastName(userDto.getLastName())
+                    .email(userDto.getEmail())
+                    .password(userDto.getPassword())
+                    .build();
+            save(user);
+            return user;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new UserOperationException("An error occured while registering a user");
         }
     }
 }

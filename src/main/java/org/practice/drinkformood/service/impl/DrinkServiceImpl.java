@@ -1,7 +1,11 @@
 package org.practice.drinkformood.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.practice.drinkformood.config.MapperUtil;
+import org.practice.drinkformood.dto.DrinkComponentsDto;
+import org.practice.drinkformood.dto.DrinkDto;
 import org.practice.drinkformood.entities.Drink;
+import org.practice.drinkformood.entities.DrinkComponents;
 import org.practice.drinkformood.exception.DrinkNotFoundException;
 import org.practice.drinkformood.exception.DrinkOperationException;
 import org.practice.drinkformood.repository.DrinkRepository;
@@ -14,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DrinkServiceImpl implements DrinkService {
     private final DrinkRepository drinkRepository;
+    private final MapperUtil mapperUtil;
 
     @Override
     public Drink save(Drink drink) {
@@ -78,11 +83,30 @@ public class DrinkServiceImpl implements DrinkService {
 
     @Override
     public List<Drink> findAll() {
-        try{
+        try {
             return drinkRepository.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new DrinkOperationException("An error occured while finding drink");
+        }
+    }
+
+    @Override
+    public Drink register(DrinkDto drinkDto) {
+        try {
+            List<DrinkComponents> componentsDtos = drinkDto.getDrinkComponentsDtoList()
+                    .stream()
+                    .map(mapperUtil::convertToEntity)
+                    .toList();
+
+            Drink drink = Drink.builder()
+                    .name(drinkDto.getName())
+                    .drinkComponents(componentsDtos)
+                    .recipe(drinkDto.getRecipe())
+                    .build();
+            return save(drink);
+        } catch (Exception e) {
+            throw new DrinkOperationException("An error occured while registering drink");
         }
     }
 }

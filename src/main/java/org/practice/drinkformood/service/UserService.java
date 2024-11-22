@@ -1,5 +1,6 @@
 package org.practice.drinkformood.service;
 
+import org.practice.drinkformood.dto.UserDto;
 import org.practice.drinkformood.entities.User;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface UserService {
     User findByEmail(String email);
 
     List<User> findAll();
+
+    User register(UserDto userDto);
 }
