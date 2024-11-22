@@ -7,5 +7,8 @@ public enum Mood {
     ANGRY,
     PISSED,
     CHILL,
-    DRUNK
+    DRUNK,
+    TIRED,
+    EXHAUSTED,
+    FOCUSED
 }

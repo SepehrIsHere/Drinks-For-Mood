@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @MappedSuperclass
 public class BaseEntity {
     @Id
@@ -26,11 +28,8 @@ public class BaseEntity {
     @UpdateTimestamp
     private LocalDateTime updated;
 
-    @PrePersist
-    protected void onCreate() {
-        if (created == null) {
-            created = LocalDateTime.now();
-        }
+    @PreUpdate
+    protected void onUpdate() {
         if (updated == null) {
             updated = LocalDateTime.now();
         }

@@ -1,11 +1,11 @@
 package org.practice.drinkformood.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.practice.drinkformood.entities.enumerations.Category;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,4 +28,19 @@ public class Drink extends BaseEntity {
 
     @Column(nullable = false)
     private String recipe;
+
+    @Column
+    private String totalCalorie;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @PrePersist
+    protected void onCreate() {
+        if(totalCalorie == null || totalCalorie.isEmpty()) {
+            for(DrinkComponents component : drinkComponents) {
+                totalCalorie += component.getCalorie();
+            }
+        }
+    }
 }
